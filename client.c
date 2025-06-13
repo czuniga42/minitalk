@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/06/13 12:31:47 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:50:10 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@
 
 void	handle_ack(int signal)
 {
-	(void)signal;
+	//(void)signal;
+	if (signal == SIGUSR1)
+	{
+		write(1, "confirmacion recibida", 21);
+	}
 }
 
 void	send_char(pid_t server_pid, unsigned char c)
@@ -34,7 +38,7 @@ void	send_char(pid_t server_pid, unsigned char c)
 		else
 			kill(server_pid, SIGUSR2);
 		bit++;
-		usleep(100);  // Pequeña pausa para que el servidor procese cada bit
+		usleep(1000);  // Pequeña pausa para que el servidor procese cada bit
 	}
 	pause();  // Espera la confirmación del servidor y nos bloquea al llegar la señal
 }

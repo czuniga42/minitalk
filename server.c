@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:57:31 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/06/13 13:53:38 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:15:11 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/types.h>
 #include "libft/libft.h"
 
 typedef struct	s_data
@@ -74,11 +75,10 @@ void	ft_signal_handler(int signal, siginfo_t *info, void *context)
 	if (g_data->count_bit == 8)
 	{
 		ft_reserve_space();
-		ft_putchar_fd(g_data->c, 1); // de prueba
 		if (g_data->c == '\0')
 			ft_free_and_print();
 		g_data->count_bit = 0;
-		g_data->c = 0;kill(info->si_pid, SIGUSR1);
+		g_data->c = 0;
 		kill(info->si_pid, SIGUSR1);
 	}
 }
