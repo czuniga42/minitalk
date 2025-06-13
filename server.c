@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:57:31 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/06/12 19:33:36 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:53:38 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,16 @@ void	ft_signal_handler(int signal, siginfo_t *info, void *context)
 	g_data->count_bit++;
 	if (g_data->count_bit == 8)
 	{
-		ft_reserve_space(); // ???
+		ft_reserve_space();
+		ft_putchar_fd(g_data->c, 1); // de prueba
 		if (g_data->c == '\0')
 			ft_free_and_print();
 		g_data->count_bit = 0;
-		g_data->c = 0;
+		g_data->c = 0;kill(info->si_pid, SIGUSR1);
+		kill(info->si_pid, SIGUSR1);
 	}
-	kill(info->si_pid, SIGUSR1);
 }
-	
+
 int main(void)
 {
 	struct	sigaction sa;
@@ -101,14 +102,3 @@ int main(void)
 		pause();
 	return (0);
 }
-
-/* signal es para SIGUSR1 Y 2, sigaction, etc..
-1 = 1 bit, 2 = 0 bits
-unistd para write, pause, getpid, etc..
-stdlib para free 
-se usan funciones estaticas porque al salir no se destruye y conserva su valor en repetitivas llamadas
-teniendo en cuenta que se llama por cada bit
-c |= (1 << count_bit) es igual a: 
-int mask = 1 << count_bit  -> crea una mascara (un numero en bits) con el bit activado
-c = c | mask -> aplicar OR para encender el bit en 'c'. solo cambia el 'bit'.
-*/
