@@ -6,95 +6,12 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:57:31 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/01 23:22:42 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/02 00:55:14 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 /* #include <signal.h>
-#include <unistd.h>
-
-typedef struct s_server_data
-{
-	sig_atomic_t	bit;
-	sig_atomic_t	flag;
-	sig_atomic_t	client_pid;
-}	t_server_data;
-
-volatile t_server_data	g_server = {0, 0, 0};
-
-void	handle_signal(int sig, siginfo_t *info, void *context)
-{
-	(void)context;
-	g_server.bit = (sig == SIGUSR2);
-	g_server.flag = 1;
-	g_server.client_pid = info->si_pid;
-	kill(g_server.client_pid, SIGUSR1); // ✅ confirmación al cliente
-}
-
-void	print_pid(void)
-{
-	char	buffer[20];
-	int		pid;
-	int		len;
-	char	c;
-
-	pid = getpid();
-	len = 0;
-	write(1, "Server PID: ", 12);
-	if (pid == 0)
-		write(1, "0", 1);
-	while (pid > 0)
-	{
-		buffer[len++] = (pid % 10) + '0';
-		pid /= 10;
-	}
-	while (--len >= 0)
-	{
-		c = buffer[len];
-		write(1, &c, 1);
-	}
-	write(1, "\n", 1);
-}
-
-void	handle_char(void)
-{
-	static int				bit_index = 0;
-	static unsigned char	c = 0;
-
-	c |= (g_server.bit << (7 - bit_index));
-	bit_index++;
-	if (bit_index == 8)
-	{
-		if (c == '\0')
-			write(1, "\n", 1);
-		else
-			write(1, &c, 1);
-		c = 0;
-		bit_index = 0;
-	}
-	g_server.flag = 0;
-}
-
-int	main(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_sigaction = handle_signal;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
-	print_pid();
-	while (1)
-	{
-		pause();
-		if (g_server.flag)
-			handle_char();
-	}
-}
- */
-
- #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -143,10 +60,8 @@ void handle_bit(void)
 
 	current = (current << 1) | g_server.bit;
 	bit_count++;
-
 	if (g_server.state == 0)
 	{
-		// Recibiendo tamaño (32 bits)
 		if (bit_count == 32)
 		{
 			g_server.msg_len = current;
@@ -234,20 +149,54 @@ int main(void)
 	struct sigaction sa;
 
 	g_server.state = 0;
-
 	write(1, "Server PID: ", 12);
 	ft_putnbr_fd(getpid(), 1);
 	write(1, "\n", 1);
-
 	sa.sa_sigaction = sigusr_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
-
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-
 	while (1)
 		pause();
+	return (0);
+}
+ */
 
+ #include "server.h"
+
+t_server g_server = {0};
+
+void	sigusr_handler(int signum, siginfo_t *info, void *context)
+{
+	(void)context;
+	if (g_server.client_pid != info->si_pid)
+	{
+		reset_server();
+		g_server.client_pid = info->si_pid;
+	}
+	if (signum == SIGUSR1)
+		g_server.bit = 0;
+	else if (signum == SIGUSR2)
+		g_server.bit = 1;
+	handle_state();
+	kill(g_server.client_pid, SIGUSR1);
+}
+
+int	main(void)
+{
+	struct sigaction	sa;
+
+	g_server.state = 0;
+	write(1, "Server PID: ", 12);
+	ft_putnbr_fd(getpid(), 1);
+	write(1, "\n", 1);
+	sa.sa_sigaction = sigusr_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	while (1)
+		pause();
 	return (0);
 }
