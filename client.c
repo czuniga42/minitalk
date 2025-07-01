@@ -3,67 +3,146 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/06/13 17:50:10 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:22:08 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* handle_ack: //para confirmar la señal, sin modificar variables porq se usa pause */
-
-#include <signal.h>
+/* #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "libft/libft.h"
 
-void	handle_ack(int signal)
+volatile sig_atomic_t	g_ack = 0; // ✅ única global del cliente
+
+void	ack_handler(int sig)
 {
-	//(void)signal;
-	if (signal == SIGUSR1)
-	{
-		write(1, "confirmacion recibida", 21);
-	}
+	(void)sig;
+	g_ack = 1;
 }
 
-void	send_char(pid_t server_pid, unsigned char c)
+void	send_bit(pid_t pid, int bit)
 {
-	int	bit;
+	g_ack = 0;
+	if (bit == 0)
+		kill(pid, SIGUSR1);
+	else
+		kill(pid, SIGUSR2);
+	while (!g_ack)
+		pause(); // 🕓 espera confirmación del server
+}
 
-	bit = 0;
-	while (bit < 8)
+void	send_char(pid_t pid, unsigned char c)
+{
+	int	i;
+
+	i = 7;
+	while (i >= 0)
 	{
-		if ((c >> bit) & 1)
-			kill(server_pid, SIGUSR1);
-		else
-			kill(server_pid, SIGUSR2);
-		bit++;
-		usleep(1000);  // Pequeña pausa para que el servidor procese cada bit
+		send_bit(pid, (c >> i) & 1);
+		i--;
 	}
-	pause();  // Espera la confirmación del servidor y nos bloquea al llegar la señal
 }
 
 int	main(int argc, char **argv)
 {
-	struct sigaction sa;
-	pid_t	server_pid;
-	char	*message;
+	pid_t	pid;
+	char	*msg;
 	int		i;
 
-	i = 0;
 	if (argc != 3)
-	{
-		ft_putstr_fd("Uso: ./client [PID_SERVIDOR] [MENSAJE]\n", 2);
 		return (1);
+	pid = (pid_t)atoi(argv[1]);
+	msg = argv[2];
+	signal(SIGUSR1, ack_handler);
+	i = 0;
+	while (msg[i])
+	{
+		send_char(pid, msg[i]);
+		i++;
 	}
-	server_pid = ft_atoi(argv[1]);
-	message = argv[2];
-	sa.sa_handler = handle_ack;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGUSR1, &sa, NULL);
-	while (message[i]) //enviamos cada caracter del mensaje
-		send_char(server_pid, message[i++]);
-	send_char(server_pid, '\0');  // Final del mensaje
+	send_char(pid, '\0');
+	return (0);
+}
+ */
+
+ #include <signal.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+volatile sig_atomic_t g_ack = 0;
+
+// Handler que confirma la recepción de la señal en el servidor
+void ack_handler(int signum)
+{
+	(void)signum;
+	g_ack = 1;
+}
+
+// Enviar un bit y esperar confirmación
+void send_bit(pid_t pid, int bit)
+{
+	g_ack = 0;
+	if (bit == 0)
+		kill(pid, SIGUSR1);
+	else
+		kill(pid, SIGUSR2);
+	while (!g_ack)
+		pause();
+}
+
+// Enviar un carácter (8 bits)
+void send_char(pid_t pid, unsigned char c)
+{
+	int i = 7;
+	while (i >= 0)
+	{
+		send_bit(pid, (c >> i) & 1);
+		i--;
+	}
+}
+
+// Enviar entero de 32 bits (tamaño)
+void send_int(pid_t pid, unsigned int n)
+{
+	int i = 31;
+	while (i >= 0)
+	{
+		send_bit(pid, (n >> i) & 1);
+		i--;
+	}
+}
+
+int main(int argc, char **argv)
+{
+	pid_t pid;
+	char *msg;
+	int len;
+	int i;
+
+	if (argc != 3)
+		return (1);
+	pid = (pid_t)atoi(argv[1]);
+	msg = argv[2];
+	len = 0;
+	while (msg[len])
+		len++;
+
+	signal(SIGUSR1, ack_handler);
+
+	// Enviar tamaño
+	send_int(pid, len);
+
+	// Enviar 8 bits ceros para inicio
+	send_char(pid, 0);
+
+	// Enviar mensaje
+	for (i = 0; i < len; i++)
+		send_char(pid, msg[i]);
+
+	// Enviar 8 bits ceros para fin
+	send_char(pid, 0);
+
 	return (0);
 }
