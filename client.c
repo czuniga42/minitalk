@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 23:34:10 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/02 23:59:29 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ int	main(int argc, char **argv)
 	while (i < len)
 		send_char(pid, msg[i++]);
 	send_char(pid, 0);
-	while (!g_ack)
-		pause();
+	usleep(800);
 	ft_putstr_fd("\nMensaje enviado correctamente.\n", 1);
 	return (0);
 }
