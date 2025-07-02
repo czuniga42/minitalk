@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:34:17 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 23:39:23 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 00:20:20 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void handle_state_3(unsigned int *current, int *bit_count)
 
 		// 🧠 Añade este ACK antes de reiniciar
 		kill(g_server.client_pid, SIGUSR1);
-
 		reset_server();
 	}
 }

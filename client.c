@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 23:59:29 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 00:37:03 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("Usage: ./client <PID> <message>\n", 2);
 		return (1);
 	}
-	pid = (pid_t)atoi(argv[1]);
+	pid = (pid_t)ft_atoi(argv[1]);
 	msg = argv[2];
 	len = ft_strlen(msg);
 	signal(SIGUSR1, ack_handler);
