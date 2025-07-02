@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_server.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:34:17 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 17:01:15 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/02 23:39:23 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ static void handle_state_3(unsigned int *current, int *bit_count)
 			ft_putstr_fd(g_server.msg, 1);
 			write(1, "\n", 1);
 		}
-		reset_server();
 		*bit_count = 0;
 		*current = 0;
+
+		// 🧠 Añade este ACK antes de reiniciar
+		kill(g_server.client_pid, SIGUSR1);
+
+		reset_server();
 	}
 }
 

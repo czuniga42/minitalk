@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:50:30 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 17:04:51 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/02 23:10:41 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 typedef struct s_server
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:57:31 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 17:17:41 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/02 23:44:46 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- #include "server.h"
+#include "server.h"
 
 t_server g_server = {0};
 
@@ -22,7 +22,7 @@ void reset_server(void)
 	g_server.state = 0;
 	g_server.msg_len = 0;
 	g_server.chars_received = 0;
-	g_server.client_pid = 0;
+//	g_server.client_pid = 0;
 }
 
 void	sigusr_handler(int signum, siginfo_t *info, void *context)

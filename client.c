@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 17:23:25 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/02 23:34:10 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- #include "client.h"
+#include "client.h"
 
 volatile sig_atomic_t g_ack = 0;
 
@@ -58,12 +58,13 @@ int	main(int argc, char **argv)
 	int		i;
 
 	if (argc != 3)
+	{
+		ft_putstr_fd("Usage: ./client <PID> <message>\n", 2);
 		return (1);
+	}
 	pid = (pid_t)atoi(argv[1]);
 	msg = argv[2];
-	len = 0;
-	while (msg[len])
-		len++;
+	len = ft_strlen(msg);
 	signal(SIGUSR1, ack_handler);
 	i = 31;
 	while (i >= 0)
@@ -73,5 +74,8 @@ int	main(int argc, char **argv)
 	while (i < len)
 		send_char(pid, msg[i++]);
 	send_char(pid, 0);
+	while (!g_ack)
+		pause();
+	ft_putstr_fd("\nMensaje enviado correctamente.\n", 1);
 	return (0);
 }
