@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:50:30 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 00:52:53 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:04:51 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "libft.h"
 
 typedef struct s_server
 {
@@ -35,5 +36,6 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	handle_state(void);
 void	reset_server(void);
+void	sigusr_handler(int signum, siginfo_t *info, void *context);
 
 #endif

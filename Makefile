@@ -9,7 +9,7 @@ CLIENT_SRC = client.c
 CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
 
 NAME_SERVER = server
-SERVER_SRC = server.c
+SERVER_SRC = server.c utils_server.c
 SERVER_OBJ = $(SERVER_SRC:.c=.o)
 
 # Reglas

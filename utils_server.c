@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils_server.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:34:17 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 01:11:51 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:01:15 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include "server.h"
 
 static void handle_state_0(unsigned int *current, int *bit_count)
 {
