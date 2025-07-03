@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 00:37:03 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:25:40 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 volatile sig_atomic_t g_ack = 0;
 
-void	ack_handler(int signum)
+void	ft_ack_handler(int signum)
 {
 	(void)signum;
 	g_ack = 1;
 }
 
-void	send_bit(pid_t pid, int bit)
+void	ft_send_bit(pid_t pid, int bit)
 {
 	g_ack = 0;
 	if (bit == 0)
@@ -37,14 +37,14 @@ void	send_bit(pid_t pid, int bit)
 		pause();
 }
 
-void	send_char(pid_t pid, unsigned char c)
+void	ft_send_char(pid_t pid, unsigned char c)
 {
 	int	i;
 
 	i = 7;
 	while (i >= 0)
 	{
-		send_bit(pid, (c >> i) & 1);
+		ft_send_bit(pid, (c >> i) & 1);
 		i--;
 	}
 	write(1, " ", 1);
@@ -65,15 +65,15 @@ int	main(int argc, char **argv)
 	pid = (pid_t)ft_atoi(argv[1]);
 	msg = argv[2];
 	len = ft_strlen(msg);
-	signal(SIGUSR1, ack_handler);
+	signal(SIGUSR1, ft_ack_handler);
 	i = 31;
 	while (i >= 0)
-		send_bit(pid, (len >> i--) & 1);
-	send_char(pid, 0);
+		ft_send_bit(pid, (len >> i--) & 1);
+	ft_send_char(pid, 0);
 	i = 0;
 	while (i < len)
-		send_char(pid, msg[i++]);
-	send_char(pid, 0);
+		ft_send_char(pid, msg[i++]);
+	ft_send_char(pid, 0);
 	usleep(800);
 	ft_putstr_fd("\nMensaje enviado correctamente.\n", 1);
 	return (0);

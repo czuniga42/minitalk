@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:50:30 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/02 23:10:41 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:22:34 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ typedef struct s_server
 
 extern t_server g_server;
 
-void	ft_putnbr_fd(int n, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	handle_state(void);
-void	reset_server(void);
-void	sigusr_handler(int signum, siginfo_t *info, void *context);
+void	ft_handle_state(void);
+void	ft_reset_server(void);
+void	ft_sigusr_handler(int signum, siginfo_t *info, void *context);
 
 #endif
