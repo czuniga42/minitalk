@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 15:26:05 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:52:52 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-volatile sig_atomic_t g_ack = 0;
+volatile sig_atomic_t	g_ack = 0;
 
 void	ft_ack_handler(int signum)
 {
 	(void)signum;
 	g_ack = 1;
 }
-
 void	ft_send_bit(pid_t pid, int bit)
 {
 	g_ack = 0;
@@ -33,7 +32,7 @@ void	ft_send_bit(pid_t pid, int bit)
 		kill(pid, SIGUSR2);
 		write(1, "1", 1);
 	}
-	while (!g_ack)
+	while(!g_ack)
 		pause();
 }
 
