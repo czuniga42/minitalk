@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 14:25:40 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:26:05 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ int	main(int argc, char **argv)
 	int		i;
 
 	if (argc != 3)
-	{
-		ft_putstr_fd("Usage: ./client <PID> <message>\n", 2);
-		return (1);
-	}
+		return (ft_putstr_fd("Usage: ./client <PID> <message>\n", 2), 1);
 	pid = (pid_t)ft_atoi(argv[1]);
 	msg = argv[2];
 	len = ft_strlen(msg);
@@ -69,6 +66,7 @@ int	main(int argc, char **argv)
 	i = 31;
 	while (i >= 0)
 		ft_send_bit(pid, (len >> i--) & 1);
+	write(1, " ", 1);
 	ft_send_char(pid, 0);
 	i = 0;
 	while (i < len)

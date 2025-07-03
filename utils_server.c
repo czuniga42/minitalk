@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:34:17 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 14:23:59 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:05:43 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ static void ft_handle_state_3(unsigned int *current, int *bit_count)
 	{
 		if (*current == 0)
 		{
+			write(1, "Mensaje recibido: \n", 18);//
 			ft_putstr_fd(g_server.msg, 1);
 			write(1, "\n", 1);
+			write(1, "Mensaje impreso correctamente\n", 30);
 		}
 		*bit_count = 0;
 		*current = 0;
