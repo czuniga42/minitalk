@@ -6,13 +6,10 @@
 /*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:34:17 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 15:05:43 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:27:51 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include "server.h"
 
 static void ft_handle_state_0(unsigned int *current, int *bit_count)
