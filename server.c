@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:57:31 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 14:22:14 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:22:31 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_sigusr_handler(int signum, siginfo_t *info, void *context)
 	else if (signum == SIGUSR2)
 		g_server.bit = 1;
 	ft_handle_state();
-	usleep(30);
+	usleep(70);
 	kill(g_server.client_pid, SIGUSR1);
 }
 
