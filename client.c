@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 20:52:52 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:44:21 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_send_bit(pid_t pid, int bit)
 	while(!g_ack)
 		pause();
 }
-
 void	ft_send_char(pid_t pid, unsigned char c)
 {
 	int	i;
@@ -58,7 +57,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 		return (ft_putstr_fd("Usage: ./client <PID> <message>\n", 2), 1);
-	pid = (pid_t)ft_atoi(argv[1]);
+	pid = (pid_t)(ft_atoi(argv[1]));
 	msg = argv[2];
 	len = ft_strlen(msg);
 	signal(SIGUSR1, ft_ack_handler);

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:57:31 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 23:31:11 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:43:34 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-t_server g_server = {0};
+t_server	g_server = {0};
 
-void ft_reset_server(void)
+void	ft_reset_server(void)
 {
 	free(g_server.msg);
 	g_server.msg = NULL;
@@ -23,7 +23,6 @@ void ft_reset_server(void)
 	g_server.msg_len = 0;
 	g_server.chars_received = 0;
 }
-
 void	ft_sigusr_handler(int signum, siginfo_t *info, void *context)
 {
 	(void)context;
@@ -44,7 +43,7 @@ void	ft_sigusr_handler(int signum, siginfo_t *info, void *context)
 int	main(void)
 {
 	struct sigaction	sa;
-
+	
 	g_server.state = 0;
 	write(1, "Server PID: ", 12);
 	ft_putnbr_fd(getpid(), 1);

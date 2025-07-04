@@ -6,13 +6,13 @@
 /*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:34:17 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/03 20:03:31 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:03:31 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-static void ft_handle_state_0(unsigned int *current, int *bit_count)
+static void	ft_handle_state_0(unsigned int *current, int *bit_count)
 {
 	if (*bit_count == 32)
 	{
@@ -31,7 +31,7 @@ static void ft_handle_state_0(unsigned int *current, int *bit_count)
 	}
 }
 
-static void ft_handle_state_1(unsigned int *current, int *bit_count)
+static void	ft_handle_state_1(unsigned int *current, int *bit_count)
 {
 	if (*bit_count == 8)
 	{
@@ -43,8 +43,8 @@ static void ft_handle_state_1(unsigned int *current, int *bit_count)
 		*current = 0;
 	}
 }
+static void	ft_handle_state_2(unsigned int *current, int *bit_count)
 
-static void ft_handle_state_2(unsigned int *current, int *bit_count)
 {
 	if (*bit_count == 8)
 	{
@@ -56,29 +56,29 @@ static void ft_handle_state_2(unsigned int *current, int *bit_count)
 	}
 }
 
-static void ft_handle_state_3(unsigned int *current, int *bit_count)
+static void	ft_handle_state_3(unsigned int *current, int *bit_count)
 {
 	if (*bit_count == 8)
 	{
 		if (*current == 0)
 		{
-			write(1, "Mensaje recibido: \n", 19);//
+			write(1, "Mensaje recibido: \n", 19);
 			ft_putstr_fd(g_server.msg, 1);
 			write(1, "\n", 1);
 		}
 		*bit_count = 0;
 		*current = 0;
+
 		kill(g_server.client_pid, SIGUSR1);
 		ft_reset_server();
 	}
 }
-
-void ft_handle_state(void)
+void	ft_handle_state(void)
 {
-	static int bit_count = 0;
-	static unsigned int current = 0;
+	static int	bit_count = 0;
+	static unsigned int	current = 0;
 
-	current = (current << 1) | g_server.bit;
+	current = (current <<  1) | g_server.bit;
 	bit_count++;
 
 	if (g_server.state == 0)
