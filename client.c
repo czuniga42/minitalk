@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/05 13:45:35 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:34:48 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-volatile sig_atomic_t	g_ack = 0; // g_ack: variable global usada como flag para saber cuando se ha recibido una señal de confirmacion (ACK) del servidor
-//volatile sig_atomic_t  asegura el  acces desd una señal handler
+volatile sig_atomic_t	g_ack = 0;
+
 void	ft_ack_handler(int signum)
 {
 	(void)signum;
-	g_ack = 1; // solo iguala a 1 para indicar que se recibió un ACK
+	g_ack = 1;
 }
 
 void	ft_send_bit(pid_t pid, int bit)
@@ -33,7 +33,7 @@ void	ft_send_bit(pid_t pid, int bit)
 		kill(pid, SIGUSR2);
 		write(1, "1", 1);
 	}
-	while (!g_ack) //espera la confirmacion del servidor hasta que g_ack cambie a 1
+	while (!g_ack)
 		pause();
 }
 
