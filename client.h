@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:51:12 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/05 13:05:38 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:33:57 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <signal.h>
 # include <unistd.h>
-# include <stdlib.h> // probarlo sin este #
+# include <stdlib.h>
 # include "libft/libft.h"
 
 void	ft_ack_handler(int signum);

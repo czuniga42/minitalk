@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/05 15:34:48 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:33:48 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,19 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 		return (ft_putstr_fd("Usage: ./client <PID> <message>\n", 2), 1);
-	pid = (pid_t)(ft_atoi(argv[1])); //convierte el pid que esta como argumento a entero
-	msg = argv[2]; //guarda el mensaje
-	len = ft_strlen(msg); //guarda la longitud de mensaje
-	signal(SIGUSR1, ft_ack_handler);//toma dos argumentos: el entero que representa la señal(SIGUSR1 o SIGUSR2), y un puntero a una funcion.-signal: forma sencilla de manejar señalesdel sistema operativo como i
+	pid = (pid_t)(ft_atoi(argv[1]));
+	msg = argv[2];
+	len = ft_strlen(msg);
+	signal(SIGUSR1, ft_ack_handler);
 	i = 31;
 	while (i >= 0)
-		ft_send_bit(pid, (len >> i--) & 1); //1ro esperara por 32 bits que es el tamaño completo del mensaje
+		ft_send_bit(pid, (len >> i--) & 1);
 	write(1, " ", 1);
-	ft_send_char(pid, 0); //envia 8bits (0)para indica que ya envio el tamaño y toca el  mensaje. seusa como separador
-	i = 0;
+	ft_send_char(pid, 0);
 	while (i < len)
-		ft_send_char(pid, msg[i++]); //aqui envia el mensaje
-	ft_send_char(pid, 0); //aqui vuelve a separar con ceros
-	usleep(800); //espera 800 microsegundos por si hay retrasos
+		ft_send_char(pid, msg[i++]);
+	ft_send_char(pid, 0);
+	usleep(800);
 	ft_putstr_fd("\nMensaje enviado correctamente.\n", 1);
 	return (0);
 }
