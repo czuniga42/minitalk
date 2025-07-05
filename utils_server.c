@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 00:34:17 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/04 16:03:31 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:12:47 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void	ft_handle_state_1(unsigned int *current, int *bit_count)
 		*current = 0;
 	}
 }
-static void	ft_handle_state_2(unsigned int *current, int *bit_count)
 
+static void	ft_handle_state_2(unsigned int *current, int *bit_count)
 {
 	if (*bit_count == 8)
 	{
@@ -68,19 +68,18 @@ static void	ft_handle_state_3(unsigned int *current, int *bit_count)
 		}
 		*bit_count = 0;
 		*current = 0;
-
 		kill(g_server.client_pid, SIGUSR1);
 		ft_reset_server();
 	}
 }
+
 void	ft_handle_state(void)
 {
-	static int	bit_count = 0;
+	static int			bit_count = 0;
 	static unsigned int	current = 0;
 
-	current = (current <<  1) | g_server.bit;
+	current = (current << 1) | g_server.bit;
 	bit_count++;
-
 	if (g_server.state == 0)
 		ft_handle_state_0(&current, &bit_count);
 	else if (g_server.state == 1)

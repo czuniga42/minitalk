@@ -6,7 +6,7 @@
 /*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/04 14:44:21 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:03:36 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_ack_handler(int signum)
 	(void)signum;
 	g_ack = 1;
 }
+
 void	ft_send_bit(pid_t pid, int bit)
 {
 	g_ack = 0;
@@ -32,9 +33,10 @@ void	ft_send_bit(pid_t pid, int bit)
 		kill(pid, SIGUSR2);
 		write(1, "1", 1);
 	}
-	while(!g_ack)
+	while (!g_ack)
 		pause();
 }
+
 void	ft_send_char(pid_t pid, unsigned char c)
 {
 	int	i;
