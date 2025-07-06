@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuniga- <czuniga-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czuniga- <czuniga-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 22:55:03 by czuniga-          #+#    #+#             */
-/*   Updated: 2025/07/05 17:33:48 by czuniga-         ###   ########.fr       */
+/*   Updated: 2025/07/06 23:48:03 by czuniga-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	main(int argc, char **argv)
 		ft_send_bit(pid, (len >> i--) & 1);
 	write(1, " ", 1);
 	ft_send_char(pid, 0);
+	i = 0;
 	while (i < len)
 		ft_send_char(pid, msg[i++]);
 	ft_send_char(pid, 0);
